@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+<div class="question-form">
+	<h2>{{ question_type }}</h2>
+	<form action="{% url 'add_question_type' %}" method="post">{% csrf_token %}
+	    {% for field in form %}
+	        <div class="fieldWrapper">
+	            {{ field.errors }}
+	            {{ field.label_tag }}: {{ field }}
+	        </div>
+	    {% endfor %}
+	    <p><input type="submit" value="Proceed" /></p>
+	</form>
+</div>
+
+{% endblock %}

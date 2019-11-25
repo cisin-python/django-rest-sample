@@ -1,0 +1,25 @@
+{% extends "admin/change_list.html" %}
+{% block object-tools-items %}
+
+    {{ block.super }}
+        <li>
+            <form method="post" action="{% url 'admin:import-courses' %}" enctype="multipart/form-data">{% csrf_token %}
+            <button class='grp-state-focus addlink course-button' type="submit">Import Courses</button>
+            <input type="file" required accept=".xlsx" name="courses-file">
+            </form>
+        </li>
+
+<style type="text/css">
+    button.grp-state-focus.addlink {
+    width: 148px;
+    height: 26px;
+    border-radius: 25px;
+    margin: 0px;
+    line-height: 0px;
+    background-color: #79aec8;
+    color: white;
+    font-weight: bold;
+}
+</style>
+
+{% endblock %}

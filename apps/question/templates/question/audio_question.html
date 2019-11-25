@@ -1,0 +1,146 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+{% if audio_instance %}
+	<div class='audio-section'>
+		<h3>File: {{ audio_instance.name}}</h3>
+		<h3>Name: {{ audio_instance.audio_file}}</h3>
+		<h3>Description: {{ audio_instance.description}}</h3>
+	</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>text</th>
+      </tr>
+    </thead>
+	{% for question in audio_instance.audio_questions.all %}
+	    <tbody>
+	      <tr>
+	        <td>{{ question.id}}</td>
+	        <td>{{ question.title}}</td>
+	        <td>{{ question.text}}</td>
+	      </tr>
+	    </tbody>
+	{% endfor %}
+  </table>
+
+	<!-- Audio Sub Question Modal -->
+	<div class="modal fade" id="subQuestionModal" role="dialog">
+		<div class="modal-dialog">
+
+		  <!-- Modal content-->
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      <h4 class="modal-title">Add Sub Questions</h4>
+		    </div>
+		    <div class="modal-body">
+		      {% include 'question/audio_sub_question_form.html' with audio_sub_question_form=audio_sub_question_form %}
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		    </div>
+		  </div>
+
+		</div>
+	</div>
+
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#subQuestionModal">
+Add Sub Questions</button>
+
+
+{% else %}
+
+	<h3>Questions list</h3>
+	<table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>Desc</th>
+      </tr>
+    </thead>
+	{% for question in audio_questions %}
+	    <tbody>
+	      <tr>
+	        <td>{{ question.id}}</td>
+	        <td>{{ question.name}}</td>
+	        <td>{{ question.description}}</td>
+	      </tr>
+	    </tbody>
+	{% endfor %}
+  </table>
+
+	<div class="question-form">
+
+	</div>
+		<!-- Audio Sub Question Modal -->
+	<div class="modal fade" id="AudioQuestionModal" role="dialog">
+		<div class="modal-dialog">
+
+		  <!-- Modal content-->
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      <h4 class="modal-title">Add Audio Questions</h4>
+		    </div>
+		    <div class="modal-body">
+		      <h2>{{ question_type }}</h2>
+				<form action="{% url 'audio_question' %}" method="post">{% csrf_token %}
+				    {% for field in form %}
+				        <div class="fieldWrapper">
+				            {{ field.errors }}
+				            {{ field.label_tag }}: {{ field }}
+				        </div>
+				    {% endfor %}
+				    <p><input type="submit" value="Proceed" /></p>
+				</form>
+		    </div>
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		    </div>
+		  </div>
+
+		</div>
+	</div>
+	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#AudioQuestionModal">
+	Add Audio Questions</button>
+
+{% endif %}
+
+<script type="text/javascript">
+
+	// $('.toggleInput').click(function(){
+ //        var pencil = $(this);
+ //        var paraTag = $(this).parent().prev().children().first();
+ //        var inputTag = $(this).parent().prev().children().last();
+
+ //        if($(this).attr("class") == "toggleInput fa fa-pencil-square-o"){
+ //            $(this).removeClass('fa fa-pencil-square-o')
+ //            $(this).addClass('fa fa-floppy-o');
+
+ //            paraTag.hide();
+ //            inputTag.show();
+ //        }
+ //        else{
+ //            if($(this).attr("class") == "toggleInput fa fa-floppy-o"){
+ //                $(this).removeClass('fa fa-floppy-o')
+ //                $(this).addClass('fa fa-pencil-square-o');
+
+ //                inputTag.hide();
+ //                paraTag.text(inputTag.val());
+ //                paraTag.show();
+ //            }
+ //        }
+ //    });
+
+</script>
+{% endblock %}
